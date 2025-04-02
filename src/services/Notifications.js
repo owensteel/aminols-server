@@ -1,3 +1,9 @@
+/*
+
+    Sends Notifications to players.
+
+*/
+
 const Subscription = require('../models/sequelize/subscription');
 const dotenv = require('dotenv');
 
@@ -11,7 +17,7 @@ const vapidKeys = {
 };
 
 webPush.setVapidDetails(
-    'https://apexenj.com/', // Contact for example purposes only
+    'https://aminols.com/', // Contact for example purposes only
     vapidKeys.publicKey,
     vapidKeys.privateKey
 );
@@ -43,7 +49,7 @@ const sendContestUpdateNotificationToUser = async (userPublicId, contestId) => {
             JSON.stringify({
                 title: `Your organism was beaten!`,
                 body: `The organism you entered in ${contestId} has sadly died. Go check out what happened!`,
-                url: `https://play.apexenj.com/${contestId}`,
+                url: `https://play.aminols.com/${contestId}`,
                 actions: [
                     {
                         action: 'open_url',

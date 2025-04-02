@@ -1,3 +1,13 @@
+/*
+
+    SocketManager
+
+    Sends and receives updates about the Game to and
+    from the connected players. This means the Game
+    itself does not have to process socket connections.
+
+*/
+
 const msgpack = require('msgpack-lite');
 const ConnectedPlayer = require('../models/connectedPlayer');
 const Main = require('../game/main');
@@ -11,6 +21,11 @@ class SocketManager {
             throw new Error("Must have valid instance of Game")
         }
         // Map of socketId -> ConnectedPlayer
+        // This helps with caching for individual players, so
+        // we can know which players have received what, i.e
+        // new players who need to be initialised with all
+        // current game data and present players who just need
+        // updates.
         this.connectedPlayers = {};
         this.registerSocketEvents();
     }
