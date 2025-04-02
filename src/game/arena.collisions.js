@@ -68,15 +68,15 @@ function bumpNodes(organism, opponent, overlappingNodes) {
             }
 
             // Factor in velocity influence
-            const orgSpeedSq = organism.velocity.x ** 2 + organism.velocity.y ** 2;
-            const oppSpeedSq = opponent.velocity.x ** 2 + opponent.velocity.y ** 2;
+            const orgSpeedSq = organism.body.velocity.x ** 2 + organism.body.velocity.y ** 2;
+            const oppSpeedSq = opponent.body.velocity.x ** 2 + opponent.body.velocity.y ** 2;
 
-            let orgSpeed = Math.sqrt(orgSpeedSq);
-            let oppSpeed = Math.sqrt(oppSpeedSq);
+            const orgSpeed = Math.sqrt(orgSpeedSq);
+            const oppSpeed = Math.sqrt(oppSpeedSq);
 
             const totalSpeed = orgSpeed + oppSpeed;
 
-            let orgPushFactor = 0.5, oppPushFactor = 0.5;
+            const orgPushFactor = 0.5, oppPushFactor = 0.5;
             if (totalSpeed > 0) {
                 // The faster object is affected more by the push
                 orgPushFactor = oppSpeed / totalSpeed;
@@ -85,11 +85,11 @@ function bumpNodes(organism, opponent, overlappingNodes) {
 
             // Apply movement adjustments
             const pushFactor = overlap * 0.25;
-            organism.visualContainer.position.x += nx * pushFactor * orgPushFactor;
-            organism.visualContainer.position.y += ny * pushFactor * orgPushFactor;
+            organism.body.position.x += nx * pushFactor * orgPushFactor;
+            organism.body.position.y += ny * pushFactor * orgPushFactor;
 
-            opponent.visualContainer.position.x -= nx * pushFactor * oppPushFactor;
-            opponent.visualContainer.position.y -= ny * pushFactor * oppPushFactor;
+            opponent.body.position.x -= nx * pushFactor * oppPushFactor;
+            opponent.body.position.y -= ny * pushFactor * oppPushFactor;
         }
     }
 }
@@ -106,14 +106,14 @@ function collisionSync(organism, opponent) {
     // Get world positions of nodes in the current update
     const organismNodesWorld = organism.presences.map((presence) => {
         return {
-            x: presence.x + organism.body.position.x,
-            y: presence.y + organism.body.position.y
+            x: (presence.x * AMINOL_NODE_SIZE) + organism.body.position.x,
+            y: (presence.y * AMINOL_NODE_SIZE) + organism.body.position.y
         }
     })
     const opponentNodesWorld = opponent.presences.map((presence) => {
         return {
-            x: presence.x + opponent.body.position.x,
-            y: presence.y + opponent.body.position.y
+            x: (presence.x * AMINOL_NODE_SIZE) + opponent.body.position.x,
+            y: (presence.y * AMINOL_NODE_SIZE) + opponent.body.position.y
         }
     })
 

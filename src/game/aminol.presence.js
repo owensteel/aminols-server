@@ -8,7 +8,8 @@
 
 class AminolPresence {
     constructor() {
-        // Absolute position (in blocks)
+        // Absolute position (in blocks,
+        // i.e WX = X * AMINOL_NODE_SIZE)
         // Relative to the centre of the
         // Aminol's body (0,0)
         this.x = 0
