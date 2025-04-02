@@ -4,6 +4,8 @@
 
 */
 
+const AminolPresence = require("./aminol.presence")
+
 class Aminol {
     constructor() {
         this.id = String(Math.random())
@@ -12,17 +14,8 @@ class Aminol {
         // as it does not actually exist.
         // Instead, it is simply the "source"
         // for Presences, which are its clones
-        // and visual representation
-        this.presences = [
-            {
-                // Absolute position
-                x: 0,
-                y: 0,
-                // Node tree for dynamic
-                // building
-                parent: null
-            }
-        ]
+        // but for visual representation only
+        this.presences = [new AminolPresence()]
 
         // Imagine this as the container
         // for all this Aminol's Presences
@@ -35,6 +28,9 @@ class Aminol {
     }
     updateLife() {
         // Update each Presence
+        for (const presence of this.presences) {
+            presence.updateLife()
+        }
     }
 }
 
