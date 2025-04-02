@@ -16,8 +16,6 @@ const io = socketIo(server, {
         origin: (origin, callback) => {
             // Allowed origins, remote and local
             const allowedOrigins = [
-                "https://static.apexenj.com",
-                "http://10.0.0.34",
                 "http://localhost"
             ];
             console.log("Socket.IO CORS request from", origin);

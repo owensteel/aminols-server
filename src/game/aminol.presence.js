@@ -8,6 +8,7 @@
 
 class AminolPresence {
     constructor() {
+        this.energy = 1
         // Absolute position (in blocks,
         // i.e WX = X * AMINOL_NODE_SIZE)
         // Relative to the centre of the
@@ -19,6 +20,13 @@ class AminolPresence {
     }
     updateLife() {
         // something
+    }
+    inStaticForm() {
+        return {
+            energy: this.energy,
+            x: this.x,
+            y: this.y
+        }
     }
 }
 

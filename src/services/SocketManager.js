@@ -9,8 +9,13 @@
 */
 
 const msgpack = require('msgpack-lite');
-const ConnectedPlayer = require('../models/connectedPlayer');
 const Main = require('../game/main');
+
+class ConnectedPlayer {
+    constructor(socketId) {
+        this.socketId = socketId;
+    }
+}
 
 const SOCKET_UPS = 12
 
@@ -29,39 +34,59 @@ class SocketManager {
         // current game data and present players who just need
         // updates.
         this.connectedPlayers = {};
-        this.registerSocketEvents();
+
+        // Handle connections
+        this.io.on('connection', (socket) => {
+            // Has to be done this longhand way or
+            // connectedPlayers won't be initialised
+            // for some reason
+            this.handleNewSocketConnection(socket)
+        });
     }
 
-    registerSocketEvents() {
-        this.io.on('connection', (socket) => {
-            console.log('New client connected:', socket.id);
+    handleNewSocketConnection(socket) {
+        console.log('New client connected:', socket.id);
 
-            // Cache this player
-            const socketId = socket.id;
-            const thisConnectedPlayer = new ConnectedPlayer(socketId, "1")
-            this.connectedPlayers[socketId] = thisConnectedPlayer
+        // Cache this player
+        const socketId = socket.id;
+        const thisConnectedPlayer = new ConnectedPlayer(socketId)
+        this.connectedPlayers[socketId] = thisConnectedPlayer
 
-            // Handle disconnect
-            socket.on('disconnect', () => {
-                console.log('Client disconnected:', socketId);
-                delete this.connectedPlayers[socketId];
-            });
-
-            // Update player
-
-            // Constantly update client about Aminol positions
-            setInterval(() => {
-                for (const aminol of this.game.arena.aminols) {
-                    this.io.to(socketId).emit(
-                        'updateAminolBodyPosition',
-                        {
-                            aminolId: aminol.id,
-                            position: aminol.body.position
-                        }
-                    );
-                }
-            }, 1000 / SOCKET_UPS)
+        // Handle disconnect
+        socket.on('disconnect', () => {
+            console.log('Client disconnected:', socketId);
+            delete this.connectedPlayers[socketId];
         });
+
+        // Update client
+
+        // Initialise client's version of Arena
+        for (const aminol of this.game.arena.aminols) {
+            this.io.to(socketId).emit(
+                'initAminol',
+                {
+                    aminolId: aminol.id,
+                    presences: aminol.presences.map((presence) => {
+                        return presence.inStaticForm()
+                    })
+                }
+            );
+        }
+
+        // Constantly update client about Aminol positions
+        // TODO: Could this be one main loop that updates
+        // all players at once?
+        setInterval(() => {
+            for (const aminol of this.game.arena.aminols) {
+                this.io.to(socketId).emit(
+                    'updateAminolBodyPosition',
+                    {
+                        aminolId: aminol.id,
+                        position: aminol.body.position
+                    }
+                );
+            }
+        }, 1000 / SOCKET_UPS)
     }
 }
 
