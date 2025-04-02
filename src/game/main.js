@@ -6,8 +6,7 @@
 
 const Arena = require("./arena")
 const Aminol = require('./aminol')
-
-const UPDATE_FPS = 12
+const { UPDATE_FPS } = require('./references')
 
 class Main {
     constructor() {
