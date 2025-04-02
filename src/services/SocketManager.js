@@ -1,11 +1,11 @@
 const msgpack = require('msgpack-lite');
 const ConnectedPlayer = require('../models/connectedPlayer');
-const { default: Game } = require('../v0/v0.game');
+const Main = require('../game/main');
 
 class SocketManager {
     constructor(io, game) {
         this.io = io;
-        if (game instanceof Game) {
+        if (game instanceof Main) {
             this.game = game;
         } else {
             throw new Error("Must have valid instance of Game")

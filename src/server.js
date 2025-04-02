@@ -38,10 +38,11 @@ const io = socketIo(server, {
 
 // Instantiate our game
 
-const Game = require('./v0/v0.game');
-const currentGame = new Game()
+const Main = require('./game/main');
+const currentGame = new Main()
 
-// Instantiate our socket manager
+// Instantiate the socket manager
+
 new SocketManager(
     io,
     currentGame
