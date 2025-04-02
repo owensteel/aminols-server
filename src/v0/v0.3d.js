@@ -7,15 +7,7 @@
 */
 
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js'
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
-
-const gameWrapper = document.getElementById('game-wrapper')
-const gameStageWrapper = document.createElement("game-stage-wrapper");
-gameWrapper.appendChild(gameStageWrapper)
 
 // Initialize Three.js scene
 
@@ -28,79 +20,6 @@ const canvasWidth = canvasDim;
 const canvasHeight = canvasDim;
 
 const scene = new THREE.Scene();
-
-const ThreeRenderer = new THREE.WebGLRenderer({
-    preserveDrawingBuffer: true,
-    antialias: true
-});
-ThreeRenderer.setClearColor("#ffffff", 0);
-ThreeRenderer.setSize(canvasWidth, canvasHeight);
-
-const ThreeCanvas = ThreeRenderer.domElement
-ThreeCanvas.setAttribute("id", "game-stage")
-gameStageWrapper.appendChild(ThreeCanvas);
-
-// Camera
-
-const aspect = canvasWidth / canvasHeight;
-const frustumSize = 250; // Adjust to control zoom level
-const camera = new THREE.OrthographicCamera(
-    -frustumSize * aspect / 2,   // left
-    frustumSize * aspect / 2,   // right
-    frustumSize / 2,  // top
-    -frustumSize / 2,  // bottom
-    0.1,            // near clipping plane
-    1000          // far clipping plane
-);
-// With an orthographic camera, distance has no effect
-camera.position.set(0, 0, 200);
-camera.lookAt(0, 0, 0);
-
-// OrbitControls (Works with OrthographicCamera)
-const controls = new OrbitControls(camera, ThreeCanvas);
-controls.enableDamping = true; // Smooth camera movement
-controls.dampingFactor = 0.05;
-controls.enableRotate = false;
-controls.screenSpacePanning = true; // Allows panning with right-click
-controls.zoomSpeed = 1.5; // Adjust zooming speed
-
-// Outline filter
-
-const composer = new EffectComposer(ThreeRenderer);
-const renderPass = new RenderPass(scene, camera);
-composer.addPass(renderPass);
-
-const outlinePass = new OutlinePass(
-    new THREE.Vector2(canvasWidth, canvasHeight),
-    scene,
-    camera
-);
-composer.addPass(outlinePass);
-
-outlinePass.edgeStrength = 100;
-outlinePass.edgeGlow = 0;
-outlinePass.edgeThickness = 0.1;
-outlinePass.visibleEdgeColor.set('#000');
-outlinePass.hiddenEdgeColor.set('#fff');
-
-// Main renderer, called in the animation loop
-
-function renderScene() {
-    ThreeRenderer.render(scene, camera);
-
-    outlinePass.selectedObjects = scene.children;
-    composer.render();
-}
-
-const RENDERS_PER_SEC = 12
-function renderLoop() {
-    renderScene()
-    setTimeout(renderLoop, 1000 / RENDERS_PER_SEC)
-}
-
-function startRenderLoop() {
-    renderLoop()
-}
 
 // Loads an OBJ model from a URL and returns it as a "scene"
 // NOTE: Currently not used anywhere
@@ -289,32 +208,6 @@ function mousePosTo3DPos(mousePos) {
     }
 }
 
-// Text
-
-function createTextTexture(message, fontSize = 100, color = "black") {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    ctx.font = `${fontSize}px Arial`;
-    const textWidth = ctx.measureText(message).width;
-
-    canvas.width = textWidth;
-    canvas.height = fontSize * 1.5; // Adjust for proper text height
-
-    ctx.font = `${fontSize}px Arial`;
-    ctx.fillStyle = color;
-    ctx.fillText(message, 0, fontSize);
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.center.set(0.5, 0.5);
-    texture.rotation = -(Math.PI / 2);
-    const material = new THREE.SpriteMaterial({ map: texture });
-
-    const sprite = new THREE.Sprite(material);
-    sprite.scale.set(10, 5, 1); // Scale to scene units
-    return sprite;
-}
-
 export {
     ThreeRenderer,
     ThreeCanvas,
@@ -327,6 +220,5 @@ export {
     convertNodePosIntoWorldPos,
     rotateMeshToTarget,
     hit3DFromCanvasClickPos,
-    mousePosTo3DPos,
-    createTextTexture
+    mousePosTo3DPos
 }

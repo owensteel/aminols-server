@@ -5,9 +5,7 @@ const socketIo = require('socket.io');
 const app = require('./config/express');
 
 // Import our service classes
-const GameManager = require('./services/GameManager');
 const SocketManager = require('./services/SocketManager');
-const GameContestManager = require('./services/GameContestManager');
 
 // Create HTTP server
 const server = http.createServer(app);
@@ -38,15 +36,15 @@ const io = socketIo(server, {
     pingTimeout: 5000
 });
 
-// Instantiate our game managers
-const gameManager = new GameManager();
-const gameContestManager = new GameContestManager();
+// Instantiate our game
+
+const { default: Game } = require('./v0/v0.game');
+const currentGame = new Game()
 
 // Instantiate our socket manager
 new SocketManager(
     io,
-    gameManager,
-    gameContestManager
+    currentGame
 );
 
 // Start the server

@@ -14,7 +14,7 @@ app.use((req, res, next) => {
 
 // A simple API route (you can extend as needed)
 app.get('/', (req, res) => {
-    res.send({ message: 'Welcome to the Game API' });
+    res.send({ message: 'Welcome to the Game Server' });
 });
 
 module.exports = app;
