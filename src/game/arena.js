@@ -21,6 +21,7 @@ class Arena {
         // Update each Aminol's state
         for (const aminol of this.aminols) {
             aminol.updateLife()
+            aminol.updateEffects()
         }
         // Collide them with each other
         for (const aminol1 of this.aminols) {
