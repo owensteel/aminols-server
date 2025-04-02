@@ -4,10 +4,10 @@
 
 */
 
-import { arenaEdges3D, scene, stageEdges3D } from "./v0.3d"
-import Aminol from "./v0.aminol"
-import syncObjects from "./v0.arena.syncObjects";
-import { generatedId } from "./v0.utils";
+const { arenaEdges3D, scene } = require("./v0.3d");
+const Aminol = require("./v0.aminol");
+const syncObjects = require("./v0.arena.syncObjects");
+const { generatedId } = require("./v0.utils");
 
 // Collisions
 
@@ -120,4 +120,4 @@ class Arena {
     }
 }
 
-export default Arena
+module.exports = Arena;

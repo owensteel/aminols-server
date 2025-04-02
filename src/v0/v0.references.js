@@ -12,10 +12,10 @@ const CHILD_NODE_Y_OFFSET = (AMINOL_NODE_SIZE * 1.5)
 
 const UPDATE_FPS = 12
 
-export {
+module.exports = {
     AMINOL_NODE_SIZE,
     AMINOL_NODE_WIDTH,
     CHILD_NODE_X_OFFSET,
     CHILD_NODE_Y_OFFSET,
     UPDATE_FPS
-}
+};

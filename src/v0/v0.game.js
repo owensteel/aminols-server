@@ -4,9 +4,9 @@
 
 */
 
-import Aminol from "./v0.aminol";
-import Arena from "./v0.arena";
-import { UPDATE_FPS } from "./v0.references";
+const Aminol = require("./v0.aminol");
+const Arena = require("./v0.arena");
+const { UPDATE_FPS } = require("./v0.references");
 
 class Game {
     constructor() {
@@ -30,4 +30,4 @@ class Game {
     }
 }
 
-export default Game
+module.exports = Game;

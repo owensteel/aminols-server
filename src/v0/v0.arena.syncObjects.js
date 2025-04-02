@@ -4,7 +4,7 @@
 
 */
 
-import { AMINOL_NODE_SIZE } from "./v0.references";
+const { AMINOL_NODE_SIZE } = require("./v0.references");
 
 // Mechanics utilities
 
@@ -125,4 +125,4 @@ function syncObjects(organism, opponent) {
     }
 }
 
-export default syncObjects
+module.exports = syncObjects;

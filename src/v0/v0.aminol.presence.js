@@ -6,9 +6,9 @@
 
 */
 
-import Aminol from "./v0.aminol"
-import { CHILD_NODE_X_OFFSET, CHILD_NODE_Y_OFFSET } from "./v0.references"
-import { generatedId } from "./v0.utils"
+const Aminol = require("./v0.aminol");
+const { CHILD_NODE_X_OFFSET, CHILD_NODE_Y_OFFSET } = require("./v0.references");
+const { generatedId } = require("./v0.utils");
 
 const ENERGY_NATURAL_DECREASE = (0.01 / 10)
 const DEFAULT_PRESET_PRESENCE = {
@@ -183,4 +183,4 @@ class AminolPresence {
     }
 }
 
-export default AminolPresence
+module.exports = AminolPresence;

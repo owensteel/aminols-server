@@ -6,8 +6,8 @@
 
 */
 
-import * as THREE from 'three';
-import { OBJLoader } from 'three/addons/loaders/OBJLoader.js'
+const THREE = require('three');
+const { OBJLoader } = import('three/addons/loaders/OBJLoader.js');
 
 // Initialize Three.js scene
 
@@ -41,16 +41,6 @@ async function loadModel(objUrl) {
         console.error('Error loading OBJ model:', error);
         throw error;
     }
-}
-
-// For debugging purposes, to check camera can see far enough
-function addCubeAtPos(x, y, z) {
-    const cube = new THREE.Mesh(
-        new THREE.BoxGeometry(15, 15, 15),
-        new THREE.MeshBasicMaterial({ color: 'red' })
-    )
-    scene.add(cube)
-    cube.position.set(x, y, z);
 }
 
 // A solution for "bumping" organisms when they have complicated positions
@@ -130,29 +120,6 @@ function rotateMeshToTarget(mesh, nx, ny, targetX, targetY) {
     }
 }
 
-// From canvas click coords to 3D space coords
-function hit3DFromCanvasClickPos(clickPos) {
-    const rect = ThreeRenderer.domElement.getBoundingClientRect();
-    const mouse = new THREE.Vector2(
-        ((clickPos.x - rect.left) / rect.width) * 2 - 1,
-        -((clickPos.y - rect.top) / rect.height) * 2 + 1
-    );
-
-    // Make a new Raycaster
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-
-    // Get all intersections with a group or array of meshes in the scene
-    const intersects = raycaster.intersectObjects(scene.children, true);
-
-    if (intersects.length > 0) {
-        // intersects[0] is the closest object
-        return intersects[0];
-    }
-
-    return false
-}
-
 // Get 3D edges
 
 const canvasEdges3D = {
@@ -201,24 +168,12 @@ const arenaEdges3D = {
     }
 }
 
-function mousePosTo3DPos(mousePos) {
-    return {
-        x: (mousePos.x - (canvasWidth / 2)),
-        y: -(mousePos.y - (canvasHeight / 2))
-    }
-}
-
-export {
-    ThreeRenderer,
-    ThreeCanvas,
+module.exports = {
     scene,
     arenaEdges3D,
     canvasEdges3D,
-    startRenderLoop,
     loadModel,
     translateMeshInWorld,
     convertNodePosIntoWorldPos,
-    rotateMeshToTarget,
-    hit3DFromCanvasClickPos,
-    mousePosTo3DPos
-}
+    rotateMeshToTarget
+};

@@ -8,18 +8,21 @@
 
 */
 
-import * as THREE from "three"
-import AminolPresence from "./v0.aminol.presence"
-import Arena from "./v0.arena"
-import { createTextTexture, scene } from "./v0.3d"
-import { AMINOL_NODE_SIZE, AMINOL_NODE_WIDTH, CHILD_NODE_X_OFFSET, CHILD_NODE_Y_OFFSET } from "./v0.references"
-import { generatedId } from "./v0.utils"
+const THREE = require("three");
+const AminolPresence = require("./v0.aminol.presence");
+const Arena = require("./v0.arena");
+const { createTextTexture, scene } = require("./v0.3d");
+const {
+    AMINOL_NODE_SIZE,
+    AMINOL_NODE_WIDTH,
+    CHILD_NODE_X_OFFSET,
+    CHILD_NODE_Y_OFFSET
+} = require("./v0.references");
+const { generatedId } = require("./v0.utils");
 
 // Body
 
 const bodyColor = ["red", "lightgreen", "yellow"]
-
-const faceSprite = createTextTexture(":3")
 
 function generateAminolBodyMesh() {
     const mesh = new THREE.Mesh(
@@ -35,9 +38,6 @@ function generateAminolBodyMesh() {
             }
         )
     )
-    const faceSpriteClone = faceSprite.clone()
-    faceSpriteClone.position.z = 1
-    mesh.add(faceSpriteClone)
     return mesh
 }
 
@@ -185,4 +185,4 @@ class Aminol {
     }
 }
 
-export default Aminol
+module.exports = Aminol;
