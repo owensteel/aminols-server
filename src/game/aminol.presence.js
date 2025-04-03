@@ -7,16 +7,16 @@
 */
 
 class AminolPresence {
-    constructor() {
-        this.energy = 1
+    constructor(energy = 1, x = 0, y = 0, parent = null) {
+        this.energy = energy
         // Absolute position (in blocks,
         // i.e WX = X * AMINOL_NODE_SIZE)
         // Relative to the centre of the
         // Aminol's body (0,0)
-        this.x = 0
-        this.y = 0
+        this.x = x
+        this.y = y
         // Node tree for dynamic building
-        this.parent = null
+        this.parent = parent
     }
     updateLife() {
         // something

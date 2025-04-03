@@ -16,7 +16,11 @@ class Aminol {
         // Instead, it is simply the "source"
         // for Presences, which are its clones
         // but for visual representation only
-        this.presences = [new AminolPresence()]
+        this.presences = [
+            new AminolPresence(1, 0, 0),
+            new AminolPresence(1, -1, 0),
+            new AminolPresence(1, 1, 0)
+        ]
 
         // Imagine this as the container
         // for all this Aminol's Presences
