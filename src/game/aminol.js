@@ -6,8 +6,6 @@
 
 const { Vector3 } = require("three")
 const AminolPresence = require("./aminol.presence")
-const Arena = require("./arena")
-const Main = require("./main")
 
 class Aminol {
     constructor(arena) {
@@ -24,7 +22,7 @@ class Aminol {
         // for Presences, which are its clones
         // but for visual representation only
         this.presences = [
-            new AminolPresence(this, 0, 0)
+            new AminolPresence(this)
         ]
 
         // Imagine this as the container
