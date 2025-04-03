@@ -7,7 +7,13 @@
 */
 
 class AminolPresence {
-    constructor(energy = 1, x = 0, y = 0, parent = null) {
+    constructor(source, energy = 1, x = 0, y = 0, parent = null) {
+        if (!source) {
+            throw new Error("Aminol Presence must have Aminol source")
+        } else {
+            this.source = source
+        }
+
         this.energy = energy
         // Absolute position (in blocks,
         // i.e WX = X * AMINOL_NODE_SIZE)
