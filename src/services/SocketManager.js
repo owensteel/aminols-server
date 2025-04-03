@@ -87,6 +87,7 @@ class SocketManager {
                 'initAminol',
                 {
                     aminolId: aminol.id,
+                    position: aminol.body.position,
                     presences: aminol.presences.map((presence) => {
                         return presence.inStaticForm()
                     })
