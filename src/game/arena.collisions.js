@@ -76,7 +76,7 @@ function bumpNodes(organism, opponent, overlappingNodes) {
 
             const totalSpeed = orgSpeed + oppSpeed;
 
-            const orgPushFactor = 0.5, oppPushFactor = 0.5;
+            let orgPushFactor = 0.5, oppPushFactor = 0.5;
             if (totalSpeed > 0) {
                 // The faster object is affected more by the push
                 orgPushFactor = oppSpeed / totalSpeed;
@@ -84,12 +84,23 @@ function bumpNodes(organism, opponent, overlappingNodes) {
             }
 
             // Apply movement adjustments
-            const pushFactor = overlap * 0.25;
-            organism.body.position.x += nx * pushFactor * orgPushFactor;
-            organism.body.position.y += ny * pushFactor * orgPushFactor;
 
-            opponent.body.position.x -= nx * pushFactor * oppPushFactor;
-            opponent.body.position.y -= ny * pushFactor * oppPushFactor;
+            const pushFactor = overlap * 0.25;
+
+            const orgPosEffect = {
+                x: nx * pushFactor * orgPushFactor,
+                y: ny * pushFactor * orgPushFactor
+            }
+            const oppPosEffect = {
+                x: -(nx * pushFactor * oppPushFactor),
+                y: -(ny * pushFactor * oppPushFactor)
+            }
+
+            organism.body.position.x += orgPosEffect.x
+            organism.body.position.y += orgPosEffect.y
+
+            opponent.body.position.x += oppPosEffect.x
+            opponent.body.position.y += oppPosEffect.y
         }
     }
 }
