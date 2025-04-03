@@ -31,7 +31,7 @@ class Arena {
         for (const aminol1 of this.aminols) {
             for (const aminol2 of this.aminols) {
                 if (aminol2.id !== aminol1.id) {
-                    collisionSync(aminol1, aminol1)
+                    collisionSync(aminol1, aminol2)
                 }
             }
         }
