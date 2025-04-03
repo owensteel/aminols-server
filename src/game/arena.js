@@ -8,7 +8,11 @@ const Aminol = require("./aminol")
 const collisionSync = require("./arena.collisions")
 
 class Arena {
-    constructor() {
+    constructor(game) {
+        if (!game) {
+            throw new Error("Arena must reference Game")
+        }
+        this.game = game
         this.aminols = []
     }
     addAminol(aminol) {

@@ -6,9 +6,16 @@
 
 const { Vector3 } = require("three")
 const AminolPresence = require("./aminol.presence")
+const Arena = require("./arena")
+const Main = require("./main")
 
 class Aminol {
-    constructor() {
+    constructor(arena) {
+        if (!arena) {
+            throw new Error("Aminol must reference Arena")
+        }
+        this.arena = arena
+
         this.id = String(Math.random())
 
         // An Aminol is an abstract concept,
@@ -17,9 +24,9 @@ class Aminol {
         // for Presences, which are its clones
         // but for visual representation only
         this.presences = [
-            new AminolPresence(this, 1, 0, 0),
-            new AminolPresence(this, 1, -1, 0),
-            new AminolPresence(this, 1, 1, 0)
+            new AminolPresence(this, 1, 0),
+            new AminolPresence(this, 1, -1),
+            new AminolPresence(this, 1, 1)
         ]
 
         // Imagine this as the container
@@ -61,6 +68,27 @@ class Aminol {
             this.body.position.x = posAsVec.x
             this.body.position.y = posAsVec.y
         }
+    }
+    addPresence(absX, absY) {
+        const newPresence = new AminolPresence(this, 1, absX, absY)
+        this.presences.push(newPresence)
+
+        // Update clients through SocketManager
+        this.arena.game.updateClientsAboutNewPresence(
+            this.id, newPresence
+        )
+
+        return newPresence
+    }
+    getPresencesAsMap() {
+        const map = {}
+        for (const presence of this.presences) {
+            if (!(presence.x in map)) {
+                map[presence.x] = {}
+            }
+            map[presence.x][presence.y] = presence
+        }
+        return map
     }
 }
 

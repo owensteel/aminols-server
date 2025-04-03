@@ -37,14 +37,35 @@ class SocketManager {
 
         // Handle connections
         this.io.on('connection', (socket) => {
-            // Has to be done this longhand way or
-            // connectedPlayers won't be initialised
-            // for some reason
-            this.handleNewSocketConnection(socket)
+            // Has to be done this longhand
+            // way or this.connectedPlayers
+            // won't be initialised for some
+            // reason...
+            this.handleNewSocketConnections(socket)
         });
+
+        // Allow Game to update clients about specific events
+        this.handleUpdatesByGame()
     }
 
-    handleNewSocketConnection(socket) {
+    handleUpdatesByGame() {
+        // Update all clients when an Aminol has a new Presence
+        this.game.updateClientsAboutNewPresence = (
+            aminolId, newPresence
+        ) => {
+            for (const socketId of Object.keys(this.connectedPlayers)) {
+                this.io.to(socketId).emit(
+                    'newAminolPresence',
+                    {
+                        aminolId: aminolId,
+                        newPresence: newPresence.inStaticForm()
+                    }
+                );
+            }
+        }
+    }
+
+    handleNewSocketConnections(socket) {
         console.log('New client connected:', socket.id);
 
         // Cache this player

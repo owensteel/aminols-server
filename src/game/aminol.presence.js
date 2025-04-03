@@ -8,6 +8,19 @@
 
 const { ENERGY_NATURAL_DECREASE } = require("./references")
 
+const FLAG_TEST_AUTODIVIDE = true
+
+const CHILD_PRESENCE_OFFSETS_TO_ATTEMPT = [
+    // Above
+    { x: 0, y: -1 },
+    // Right
+    { x: 1, y: 0 },
+    // Bottom
+    { x: 0, y: 1 },
+    // Left
+    { x: -1, y: 0 }
+]
+
 class AminolPresence {
     constructor(source, energy = 1, x = 0, y = 0, parent = null) {
         if (!source) {
@@ -25,9 +38,41 @@ class AminolPresence {
         this.y = y
         // Node tree for dynamic building
         this.parent = parent
+
+        // Division debugging
+        if (FLAG_TEST_AUTODIVIDE) {
+            setTimeout(() => {
+                const divInt = setInterval(() => {
+                    if (!this.divide()) {
+                        clearInterval(divInt)
+                    }
+                }, 5000)
+            }, Math.random() * 1000)
+        }
     }
     updateLife() {
         this.energy -= ENERGY_NATURAL_DECREASE
+    }
+    divide() {
+        // Find next unoccupied position
+        let childPresence = null
+        const currentPresencesMap = this.source.getPresencesAsMap()
+        for (const childOffset of CHILD_PRESENCE_OFFSETS_TO_ATTEMPT) {
+            const offsetAsAbsPosition = {
+                x: childOffset.x + this.x,
+                y: childOffset.y + this.y
+            }
+            if (
+                !currentPresencesMap[offsetAsAbsPosition.x] ||
+                !currentPresencesMap[offsetAsAbsPosition.x][offsetAsAbsPosition.y]
+            ) {
+                childPresence = this.source.addPresence(
+                    offsetAsAbsPosition.x, offsetAsAbsPosition.y
+                )
+                break
+            }
+        }
+        return childPresence
     }
     inStaticForm() {
         return {

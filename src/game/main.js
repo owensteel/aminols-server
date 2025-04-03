@@ -11,7 +11,7 @@ const { UPDATE_FPS } = require('./references')
 class Main {
     constructor() {
         // Arena
-        const currentArena = new Arena()
+        const currentArena = new Arena(this)
         this.arena = currentArena
 
         // Test
@@ -23,6 +23,8 @@ class Main {
             currentArena.renderLife()
         }, 1000 / UPDATE_FPS)
     }
+    // Overrides by SocketManager
+    updateClientsAboutNewPresence(aminolId, newPresence) { }
 }
 
 module.exports = Main;
