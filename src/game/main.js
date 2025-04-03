@@ -18,6 +18,9 @@ class Main {
         const testAminol = new Aminol(this.arena)
         currentArena.addAminol(testAminol)
 
+        const testAminol2 = new Aminol(this.arena)
+        currentArena.addAminol(testAminol2)
+
         // Arena render loop
         setInterval(() => {
             currentArena.renderLife()
