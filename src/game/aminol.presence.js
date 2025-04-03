@@ -6,6 +6,8 @@
 
 */
 
+const { ENERGY_NATURAL_DECREASE } = require("./references")
+
 class AminolPresence {
     constructor(source, energy = 1, x = 0, y = 0, parent = null) {
         if (!source) {
@@ -25,7 +27,7 @@ class AminolPresence {
         this.parent = parent
     }
     updateLife() {
-        // something
+        this.energy -= ENERGY_NATURAL_DECREASE
     }
     inStaticForm() {
         return {
