@@ -8,7 +8,7 @@
 
 const { ENERGY_NATURAL_DECREASE } = require("./references")
 
-const FLAG_TEST_AUTODIVIDE = true
+const FLAG_TEST_AUTODIVIDE = false
 
 const CHILD_PRESENCE_OFFSETS_TO_ATTEMPT = [
     // Above

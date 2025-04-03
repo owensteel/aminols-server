@@ -24,9 +24,7 @@ class Aminol {
         // for Presences, which are its clones
         // but for visual representation only
         this.presences = [
-            new AminolPresence(this, 1, 0),
-            new AminolPresence(this, 1, -1),
-            new AminolPresence(this, 1, 1)
+            new AminolPresence(this, 0, 0)
         ]
 
         // Imagine this as the container
