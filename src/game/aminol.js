@@ -27,7 +27,8 @@ class Aminol {
 
         // Imagine this as the container
         // for all this Aminol's Presences
-        // So they all move as one
+        // So they all move and behave as
+        // a single multi-cellular entity
         this.body = {
             position: {
                 x: 0, y: 0
